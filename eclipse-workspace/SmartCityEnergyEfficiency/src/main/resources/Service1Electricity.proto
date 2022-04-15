@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+
+option java_multiple_files = true;
+option java_package = "ds.examples.EnergyEfficiency";
+option java_outer_classname = "Service1ElectricityImpl";
+
+package EnergyEfficiency;
+
+// Interface exported by the server.
+service Service1Electricity {
+
+  rpc lightSensor(lightRequest) returns (stream lightResponse ) {}//server streaming.
+
+  rpc bridgeLights(stream bridgeMessage) returns (stream bridgeResponse ) {}//bidirectional.
+
+}
+
+message bridgeMessage {
+	int32 pedestrianCount = 1;//streams the number of pedestrians on the bridge.
+}
+
+message bridgeResponse {
+	string energyStatus  = 1;//streams whether or not the bridge is using energy harvesting or grid supply.
+}
+
+message lightRequest {//calculates the lumens a sensor is receiving.
+	int32 numbers = 1;
+	int32 min = 2;
+	int32 max = 3;
+}
+
+
+message lightResponse {//streams the lumens values back to the client.
+	int32 numbers = 1;
+	string lightStatus  = 2;
+}

@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+
+option java_multiple_files = true;
+option java_package = "ds.examples.EnergyEfficiency";
+option java_outer_classname = "Service2RenewablesImpl";
+
+package EnergyEfficiency;
+
+// Interface exported by the server.
+service Service2Renewables {
+
+  rpc turbineStatus(turbineRequest) returns (turbineResponse) {}//unary
+  
+  //rpc hydroPowerControl(stream hydroMessage) returns (hydroResponse) {}//client streaming
+
+}
+
+message turbineRequest {
+	string turbine  = 1;
+}
+
+message turbineResponse {
+	string turbineStatus  = 1;
+}
