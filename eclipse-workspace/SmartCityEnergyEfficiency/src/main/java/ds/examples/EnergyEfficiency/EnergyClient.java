@@ -33,7 +33,9 @@ public class EnergyClient {
 		lightSensorAsyn();
 		lightSensorBlocking();
 
-				
+		System.out.println("Starting bridgeLights method...");
+		bridgeLights();		
+		System.out.println("...bridgeLights method completed!");
 		
 		System.out.println("Services completed! Terminating now...");
 
@@ -100,7 +102,7 @@ public class EnergyClient {
 	}
 	
 	
-	/*
+	
 	public static void bridgeLights() {
 
 
@@ -110,7 +112,7 @@ public class EnergyClient {
 
 			@Override
 			public void onNext(bridgeResponse msg) {
-				System.out.println("receiving footfall data " + msg.getpedestrianCount());
+				System.out.println("receiving foot fall data " + msg.getEnergyStatus());
 				count += 1;
 			}
 
@@ -122,22 +124,32 @@ public class EnergyClient {
 
 			@Override
 			public void onCompleted() {
-				System.out.println("stream is completed ... received "+ count+ " pedestrian footfalls");
+				System.out.println("stream is completed ... received "+ count+ " pedestrian footfalls calculated");
 			}
 
 		};
 
 
 
-		StreamObserver<bridgeMessage> requestObserver = asyncStub.convertBase(responseObserver);
+		StreamObserver<bridgeMessage> requestObserver = asyncStub.bridgeLights(responseObserver);
 
 		try {
 
-			requestObserver.onNext(bridgeMessage.newBuilder().setNumber("100").setFromBase(10).setToBase(2).build());
-			requestObserver.onNext(bridgeMessage.newBuilder().setNumber("177").setFromBase(8).setToBase(10).build());
-			requestObserver.onNext(bridgeMessage.newBuilder().setNumber("10100010").setFromBase(2).setToBase(10).build());
-			requestObserver.onNext(bridgeMessage.newBuilder().setNumber("AF45").setFromBase(16).setToBase(2).build());
-			requestObserver.onNext(bridgeMessage.newBuilder().setNumber("AF45").setFromBase(16).setToBase(10).build());
+			requestObserver.onNext(bridgeMessage.newBuilder().setPedestrianCount(100).build());
+			requestObserver.onNext(bridgeMessage.newBuilder().setPedestrianCount(87).build());
+			requestObserver.onNext(bridgeMessage.newBuilder().setPedestrianCount(60).build());
+			requestObserver.onNext(bridgeMessage.newBuilder().setPedestrianCount(64).build());
+			requestObserver.onNext(bridgeMessage.newBuilder().setPedestrianCount(30).build());
+			requestObserver.onNext(bridgeMessage.newBuilder().setPedestrianCount(33).build());
+			requestObserver.onNext(bridgeMessage.newBuilder().setPedestrianCount(43).build());
+			requestObserver.onNext(bridgeMessage.newBuilder().setPedestrianCount(32).build());
+			requestObserver.onNext(bridgeMessage.newBuilder().setPedestrianCount(21).build());
+			requestObserver.onNext(bridgeMessage.newBuilder().setPedestrianCount(30).build());
+			requestObserver.onNext(bridgeMessage.newBuilder().setPedestrianCount(30).build());
+			//requestObserver.onNext(bridgeMessage.newBuilder().setNumber("177").setFromBase(8).setToBase(10).build());
+			//requestObserver.onNext(bridgeMessage.newBuilder().setNumber("10100010").setFromBase(2).setToBase(10).build());
+			//requestObserver.onNext(bridgeMessage.newBuilder().setNumber("AF45").setFromBase(16).setToBase(2).build());
+			//requestObserver.onNext(bridgeMessage.newBuilder().setNumber("AF45").setFromBase(16).setToBase(10).build());
 
 
 			// Mark the end of requests
@@ -164,7 +176,7 @@ public class EnergyClient {
 		}
 
 	}	
-	*/
+	
 	
 	
 	/*

@@ -16,14 +16,19 @@ public class EnergyServer extends Service1ElectricityImplBase {
 	
 	
 	public static void main(String[] args) {
+		
+		//creates energyServer object.
 		EnergyServer energyServer = new EnergyServer();
 
+		//conventional port for gRPC.		
 		int port = 50051;
 		
-		System.out.println("Starting gRPC Server...");
 
-		try {
-
+		try {//try/catch to catch errors and throw exceptions.
+			
+			System.out.println("Starting gRPC Server...");
+			
+			//uses builder pattern and calls methods to specify the port, add the service, then build and start the server.
 			Server server = ServerBuilder.forPort(port).addService(energyServer).build().start();
 
 			System.out.println("Smart City (energy efficiency) server started, listening on " + port);
@@ -73,7 +78,60 @@ public class EnergyServer extends Service1ElectricityImplBase {
 		responseObserver.onCompleted();
 
 
+	}//closes lightSensor method
+	
+	
+	public StreamObserver<bridgeMessage> bridgeLights(StreamObserver<bridgeResponse> responseObserver) {
+		
+		return new StreamObserver<bridgeMessage> () {
+
+			@Override
+			public void onNext(bridgeMessage msg) {
+				System.out.println("receiving bridgeLights pedestrian count: "+ msg.getPedestrianCount());
+				
+				//int count =  msg.getPedestrianCount();
+				
+				bridgeResponse.Builder response = bridgeResponse.newBuilder();
+				
+				if(msg.getPedestrianCount() > 30) {
+					//System.out.println("Pedestrian count is less than 30, using mains generator to power bridge lights.");	
+				
+					response.setEnergyStatus("Pedestrian count is less than 30, using mains generator to power bridge lights.");
+					
+				}else {
+					response.setEnergyStatus("Pedestrian count is greater than 30, using foot traffic electricity generator for bridge lights.");	
+				}
+				
+				//bridgeResponse reply = bridgeResponse.newBuilder().setPedestrianCount(count).build();
+
+				bridgeResponse reply = bridgeResponse.newBuilder().setEnergyStatus(response).build();
+				
+				//bridgeResponse reply = bridgeResponse.newBuilder().build();
+				
+				responseObserver.onNext(response);
+				
+			}
+
+			@Override
+			public void onError(Throwable t) {
+				
+				t.printStackTrace();
+				
+			}
+
+			@Override
+			public void onCompleted() {
+				System.out.println("receiving pedestrian count completed ");
+				
+				//completed too
+				responseObserver.onCompleted();
+			}
+			
+		};
 	}
+	
+	
+	
 	/*
 	public void turbineStatus(turbineRequest request, StreamObserver<turbineResponse> responseObserver) {
 

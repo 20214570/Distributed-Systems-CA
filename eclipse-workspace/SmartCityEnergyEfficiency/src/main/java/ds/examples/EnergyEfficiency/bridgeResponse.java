@@ -473,8 +473,7 @@ private static final long serialVersionUID = 0L;
      *
      * <code>string energyStatus = 1;</code>
      */
-    public Builder setEnergyStatus(
-        java.lang.String value) {
+    public Builder setEnergyStatus() {
       if (value == null) {
     throw new NullPointerException();
   }
