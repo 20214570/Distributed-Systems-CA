@@ -15,16 +15,6 @@ public final class Service1ElectricityImpl {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_EnergyEfficiency_bridgeMessage_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_EnergyEfficiency_bridgeMessage_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_EnergyEfficiency_bridgeResponse_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_EnergyEfficiency_bridgeResponse_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
     internal_static_EnergyEfficiency_lightRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -34,6 +24,16 @@ public final class Service1ElectricityImpl {
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_EnergyEfficiency_lightResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_EnergyEfficiency_bridgeMessage_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_EnergyEfficiency_bridgeMessage_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_EnergyEfficiency_bridgeResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_EnergyEfficiency_bridgeResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -44,11 +44,11 @@ public final class Service1ElectricityImpl {
   static {
     java.lang.String[] descriptorData = {
       "\n\031Service1Electricity.proto\022\020EnergyEffic" +
-      "iency\"(\n\rbridgeMessage\022\027\n\017pedestrianCoun" +
-      "t\030\001 \001(\005\"&\n\016bridgeResponse\022\024\n\014energyStatu" +
-      "s\030\001 \001(\t\"9\n\014lightRequest\022\017\n\007numbers\030\001 \001(\005" +
-      "\022\013\n\003min\030\002 \001(\005\022\013\n\003max\030\003 \001(\005\"5\n\rlightRespo" +
-      "nse\022\017\n\007numbers\030\001 \001(\005\022\023\n\013lightStatus\030\002 \001(" +
+      "iency\"9\n\014lightRequest\022\017\n\007numbers\030\001 \001(\005\022\013" +
+      "\n\003min\030\002 \001(\005\022\013\n\003max\030\003 \001(\005\"5\n\rlightRespons" +
+      "e\022\017\n\007numbers\030\001 \001(\005\022\023\n\013lightStatus\030\002 \001(\t\"" +
+      "(\n\rbridgeMessage\022\027\n\017pedestrianCount\030\001 \001(" +
+      "\005\"&\n\016bridgeResponse\022\024\n\014energyStatus\030\001 \001(" +
       "\t2\302\001\n\023Service1Electricity\022R\n\013lightSensor" +
       "\022\036.EnergyEfficiency.lightRequest\032\037.Energ" +
       "yEfficiency.lightResponse\"\0000\001\022W\n\014bridgeL" +
@@ -69,30 +69,30 @@ public final class Service1ElectricityImpl {
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         }, assigner);
-    internal_static_EnergyEfficiency_bridgeMessage_descriptor =
-      getDescriptor().getMessageTypes().get(0);
-    internal_static_EnergyEfficiency_bridgeMessage_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_EnergyEfficiency_bridgeMessage_descriptor,
-        new java.lang.String[] { "PedestrianCount", });
-    internal_static_EnergyEfficiency_bridgeResponse_descriptor =
-      getDescriptor().getMessageTypes().get(1);
-    internal_static_EnergyEfficiency_bridgeResponse_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_EnergyEfficiency_bridgeResponse_descriptor,
-        new java.lang.String[] { "EnergyStatus", });
     internal_static_EnergyEfficiency_lightRequest_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(0);
     internal_static_EnergyEfficiency_lightRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_EnergyEfficiency_lightRequest_descriptor,
         new java.lang.String[] { "Numbers", "Min", "Max", });
     internal_static_EnergyEfficiency_lightResponse_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(1);
     internal_static_EnergyEfficiency_lightResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_EnergyEfficiency_lightResponse_descriptor,
         new java.lang.String[] { "Numbers", "LightStatus", });
+    internal_static_EnergyEfficiency_bridgeMessage_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_EnergyEfficiency_bridgeMessage_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_EnergyEfficiency_bridgeMessage_descriptor,
+        new java.lang.String[] { "PedestrianCount", });
+    internal_static_EnergyEfficiency_bridgeResponse_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_EnergyEfficiency_bridgeResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_EnergyEfficiency_bridgeResponse_descriptor,
+        new java.lang.String[] { "EnergyStatus", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

@@ -14,6 +14,19 @@ service Service1Electricity {
 
   rpc bridgeLights(stream bridgeMessage) returns (stream bridgeResponse ) {}//bidirectional.
 
+
+}
+
+
+message lightRequest {//calculates the lumens a sensor is receiving.
+	int32 numbers = 1;
+	int32 min = 2;
+	int32 max = 3;
+}
+
+message lightResponse {//streams the lumens values back to the client.
+	int32 numbers = 1;
+	string lightStatus  = 2;
 }
 
 message bridgeMessage {
@@ -22,16 +35,4 @@ message bridgeMessage {
 
 message bridgeResponse {
 	string energyStatus  = 1;//streams whether or not the bridge is using energy harvesting or grid supply.
-}
-
-message lightRequest {//calculates the lumens a sensor is receiving.
-	int32 numbers = 1;
-	int32 min = 2;
-	int32 max = 3;
-}
-
-
-message lightResponse {//streams the lumens values back to the client.
-	int32 numbers = 1;
-	string lightStatus  = 2;
 }

@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+
+option java_multiple_files = true;
+option java_package = "ds.examples.EnergyEfficiency";
+option java_outer_classname = "Service3MaintenanceImpl";
+
+package EnergyEfficiency;
+
+// Interface exported by the server.
+service Service3Maintenance {
+
+  rpc predictiveMaintenance(stream maintenanceRequest) returns (stream maintenanceResponse) {}//bi-directional
+  
+  rpc remoteDiagnostics(remoteRequest) returns (remoteResponse) {}//unary
+
+}
+
+message maintenanceRequest {
+	string maintenance  = 1;
+}
+
+message maintenanceResponse {
+	string maintenanceStatus  = 1;
+}
+
+message remoteRequest {
+	string remote  = 1;
+}
+
+message remoteResponse {
+	string remoteStatus  = 1;
+}

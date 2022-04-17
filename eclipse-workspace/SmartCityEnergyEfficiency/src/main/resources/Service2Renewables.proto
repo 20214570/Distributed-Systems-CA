@@ -12,7 +12,7 @@ service Service2Renewables {
 
   rpc turbineStatus(turbineRequest) returns (turbineResponse) {}//unary
   
-  //rpc hydroPowerControl(stream hydroMessage) returns (hydroResponse) {}//client streaming
+  rpc hydroPowerControl(stream hydroRequest) returns (hydroResponse) {}//client streaming
 
 }
 
@@ -23,3 +23,12 @@ message turbineRequest {
 message turbineResponse {
 	string turbineStatus  = 1;
 }
+
+message hydroRequest {
+	string hydro  = 1;
+}
+
+message hydroResponse {
+	string hydroStatus  = 1;
+}
+

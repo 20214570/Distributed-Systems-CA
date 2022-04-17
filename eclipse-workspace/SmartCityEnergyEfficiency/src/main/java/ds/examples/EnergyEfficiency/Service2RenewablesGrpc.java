@@ -62,6 +62,38 @@ public final class Service2RenewablesGrpc {
      return getTurbineStatusMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<ds.examples.EnergyEfficiency.hydroRequest,
+      ds.examples.EnergyEfficiency.hydroResponse> getHydroPowerControlMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "hydroPowerControl",
+      requestType = ds.examples.EnergyEfficiency.hydroRequest.class,
+      responseType = ds.examples.EnergyEfficiency.hydroResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING)
+  public static io.grpc.MethodDescriptor<ds.examples.EnergyEfficiency.hydroRequest,
+      ds.examples.EnergyEfficiency.hydroResponse> getHydroPowerControlMethod() {
+    io.grpc.MethodDescriptor<ds.examples.EnergyEfficiency.hydroRequest, ds.examples.EnergyEfficiency.hydroResponse> getHydroPowerControlMethod;
+    if ((getHydroPowerControlMethod = Service2RenewablesGrpc.getHydroPowerControlMethod) == null) {
+      synchronized (Service2RenewablesGrpc.class) {
+        if ((getHydroPowerControlMethod = Service2RenewablesGrpc.getHydroPowerControlMethod) == null) {
+          Service2RenewablesGrpc.getHydroPowerControlMethod = getHydroPowerControlMethod = 
+              io.grpc.MethodDescriptor.<ds.examples.EnergyEfficiency.hydroRequest, ds.examples.EnergyEfficiency.hydroResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING)
+              .setFullMethodName(generateFullMethodName(
+                  "EnergyEfficiency.Service2Renewables", "hydroPowerControl"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  ds.examples.EnergyEfficiency.hydroRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  ds.examples.EnergyEfficiency.hydroResponse.getDefaultInstance()))
+                  .setSchemaDescriptor(new Service2RenewablesMethodDescriptorSupplier("hydroPowerControl"))
+                  .build();
+          }
+        }
+     }
+     return getHydroPowerControlMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -99,6 +131,13 @@ public final class Service2RenewablesGrpc {
       asyncUnimplementedUnaryCall(getTurbineStatusMethod(), responseObserver);
     }
 
+    /**
+     */
+    public io.grpc.stub.StreamObserver<ds.examples.EnergyEfficiency.hydroRequest> hydroPowerControl(
+        io.grpc.stub.StreamObserver<ds.examples.EnergyEfficiency.hydroResponse> responseObserver) {
+      return asyncUnimplementedStreamingCall(getHydroPowerControlMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -108,6 +147,13 @@ public final class Service2RenewablesGrpc {
                 ds.examples.EnergyEfficiency.turbineRequest,
                 ds.examples.EnergyEfficiency.turbineResponse>(
                   this, METHODID_TURBINE_STATUS)))
+          .addMethod(
+            getHydroPowerControlMethod(),
+            asyncClientStreamingCall(
+              new MethodHandlers<
+                ds.examples.EnergyEfficiency.hydroRequest,
+                ds.examples.EnergyEfficiency.hydroResponse>(
+                  this, METHODID_HYDRO_POWER_CONTROL)))
           .build();
     }
   }
@@ -139,6 +185,14 @@ public final class Service2RenewablesGrpc {
         io.grpc.stub.StreamObserver<ds.examples.EnergyEfficiency.turbineResponse> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getTurbineStatusMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public io.grpc.stub.StreamObserver<ds.examples.EnergyEfficiency.hydroRequest> hydroPowerControl(
+        io.grpc.stub.StreamObserver<ds.examples.EnergyEfficiency.hydroResponse> responseObserver) {
+      return asyncClientStreamingCall(
+          getChannel().newCall(getHydroPowerControlMethod(), getCallOptions()), responseObserver);
     }
   }
 
@@ -202,6 +256,7 @@ public final class Service2RenewablesGrpc {
   }
 
   private static final int METHODID_TURBINE_STATUS = 0;
+  private static final int METHODID_HYDRO_POWER_CONTROL = 1;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -234,6 +289,9 @@ public final class Service2RenewablesGrpc {
     public io.grpc.stub.StreamObserver<Req> invoke(
         io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
+        case METHODID_HYDRO_POWER_CONTROL:
+          return (io.grpc.stub.StreamObserver<Req>) serviceImpl.hydroPowerControl(
+              (io.grpc.stub.StreamObserver<ds.examples.EnergyEfficiency.hydroResponse>) responseObserver);
         default:
           throw new AssertionError();
       }
@@ -286,6 +344,7 @@ public final class Service2RenewablesGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new Service2RenewablesFileDescriptorSupplier())
               .addMethod(getTurbineStatusMethod())
+              .addMethod(getHydroPowerControlMethod())
               .build();
         }
       }
