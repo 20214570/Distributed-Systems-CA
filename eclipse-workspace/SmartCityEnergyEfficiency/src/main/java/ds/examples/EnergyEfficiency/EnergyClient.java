@@ -29,16 +29,19 @@ public class EnergyClient {
 
 		asyncStub = Service1ElectricityGrpc.newStub(channel);
 
-	
-		lightSensorAsyn();
-		lightSensorBlocking();
+		//System.out.println("Starting lightSensorAsyn() method...");
+		//lightSensorAsyn();
+		//System.out.println("Starting lightSensorBlocking() method...");
+		//lightSensorBlocking();
 
 		System.out.println("Starting bridgeLights method...");
 		bridgeLights();		
 		System.out.println("...bridgeLights method completed!");
 		
-		System.out.println("Services completed! Terminating now...");
+		System.out.println("Services completed! Channel shutting down now...");
 
+		//channel.shutdown();
+		
 	}//closes main method
 
 	//blocking server-streaming
@@ -112,7 +115,7 @@ public class EnergyClient {
 
 			@Override
 			public void onNext(bridgeResponse msg) {
-				System.out.println("receiving foot fall data " + msg.getEnergyStatus());
+				System.out.println("Receiving energy status data: " + msg.getEnergyStatus());
 				count += 1;
 			}
 
@@ -124,7 +127,7 @@ public class EnergyClient {
 
 			@Override
 			public void onCompleted() {
-				System.out.println("stream is completed ... received "+ count+ " pedestrian footfalls calculated");
+				System.out.println("Stream is completed ... received "+ count+ " instances of pedestrian foot falls.");
 			}
 
 		};
@@ -146,11 +149,6 @@ public class EnergyClient {
 			requestObserver.onNext(bridgeMessage.newBuilder().setPedestrianCount(21).build());
 			requestObserver.onNext(bridgeMessage.newBuilder().setPedestrianCount(30).build());
 			requestObserver.onNext(bridgeMessage.newBuilder().setPedestrianCount(30).build());
-			//requestObserver.onNext(bridgeMessage.newBuilder().setNumber("177").setFromBase(8).setToBase(10).build());
-			//requestObserver.onNext(bridgeMessage.newBuilder().setNumber("10100010").setFromBase(2).setToBase(10).build());
-			//requestObserver.onNext(bridgeMessage.newBuilder().setNumber("AF45").setFromBase(16).setToBase(2).build());
-			//requestObserver.onNext(bridgeMessage.newBuilder().setNumber("AF45").setFromBase(16).setToBase(10).build());
-
 
 			// Mark the end of requests
 			requestObserver.onCompleted();

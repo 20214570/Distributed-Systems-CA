@@ -10,9 +10,9 @@ package EnergyEfficiency;
 // Interface exported by the server.
 service Service1Electricity {
 
-  rpc lightSensor(lightRequest) returns (stream lightResponse ) {}//server streaming.
+  rpc lightSensor(lightRequest) returns (stream lightResponse) {}//server streaming.
 
-  rpc bridgeLights(stream bridgeMessage) returns (stream bridgeResponse ) {}//bidirectional.
+  rpc bridgeLights(stream bridgeMessage) returns (stream bridgeResponse) {}//bidirectional.
 
 
 }

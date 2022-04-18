@@ -49,18 +49,22 @@ public class EnergyServer extends Service1ElectricityImplBase {
 	
 	//lightSensor
 	//Illuminance is the measure of the amount of light received on the surface. It is typically expressed in lux (lm/m2).
+	//Method below takes in lightRequest as a parameter and returns the generic lightResponse as type StreamObserver
 	public void lightSensor(lightRequest request,StreamObserver<lightResponse> responseObserver) {
 
-
+		//Finds out the content of the message sent by the client using getNumbers, getMin, getMax. 
 		System.out.printf("receiving lux data: %d from: %d to: %d \n",
-				request.getNumbers(), request.getMin(), request.getMax()  );//this method is part of the Print Stream class. "d" formats decimal integers.
+				request.getNumbers(), request.getMin(), request.getMax()  );
+		//this method is part of the Print Stream class. "d" formats decimal integers.
 
 		Random rand = new Random();
 
 		for(int i=0; i<request.getNumbers(); i++) {
-
+			
+			//generates random numbers for lux values using max and min values set in client.
 			int random_value = rand.nextInt(request.getMax() - request.getMin()) + request.getMin() + 1;
-
+			
+			//builds a response with the builder method and sets the Number as random_value.
 			lightResponse reply = lightResponse.newBuilder().setNumbers(random_value).build();
 
 			responseObserver.onNext(reply);
@@ -80,35 +84,31 @@ public class EnergyServer extends Service1ElectricityImplBase {
 
 	}//closes lightSensor method
 	
-	
+	//the power for the bridge lights switches between mains electricity and the foot fall kinetic generator depending on the level of foot traffic on the bridge.
+	// see https://futurism.com/new-flooring-tech-generates-electricity-through-your-footsteps
 	public StreamObserver<bridgeMessage> bridgeLights(StreamObserver<bridgeResponse> responseObserver) {
 		
 		return new StreamObserver<bridgeMessage> () {
 
 			@Override
-			public void onNext(bridgeMessage msg) {
+			public void onNext(bridgeMessage msg) {//when a message is sent to server from client
+				
+				//gets pedestrian count from client
 				System.out.println("receiving bridgeLights pedestrian count: "+ msg.getPedestrianCount());
 				
-				//int count =  msg.getPedestrianCount();
+				//builds response
+				bridgeResponse.Builder responseBuilder = bridgeResponse.newBuilder();
 				
-				bridgeResponse.Builder response = bridgeResponse.newBuilder();
-				
-				if(msg.getPedestrianCount() > 30) {
-					//System.out.println("Pedestrian count is less than 30, using mains generator to power bridge lights.");	
-				
-					response.setEnergyStatus("Pedestrian count is less than 30, using mains generator to power bridge lights.");
-					
+				if(msg.getPedestrianCount() <= 30) {
+					//if pedestrian count is less than or equal to 30, the power for the bridge lights switches to the mains generator.
+					responseBuilder.setEnergyStatus("Pedestrian count is less than or equal to 30 - using mains generator to power bridge lights.");	
 				}else {
-					response.setEnergyStatus("Pedestrian count is greater than 30, using foot traffic electricity generator for bridge lights.");	
+					//if pedestrian count is greater than 30, the power for the bridge lights switches to the the kinetic foot traffic generator.
+					responseBuilder.setEnergyStatus("Pedestrian count is greater than 30 - using foot traffic electricity generator for bridge lights.");	
 				}
 				
-				//bridgeResponse reply = bridgeResponse.newBuilder().setPedestrianCount(count).build();
-
-				bridgeResponse reply = bridgeResponse.newBuilder().setEnergyStatus(response).build();
-				
-				//bridgeResponse reply = bridgeResponse.newBuilder().build();
-				
-				responseObserver.onNext(response);
+				//sends response to client
+				responseObserver.onNext(responseBuilder.build());
 				
 			}
 
