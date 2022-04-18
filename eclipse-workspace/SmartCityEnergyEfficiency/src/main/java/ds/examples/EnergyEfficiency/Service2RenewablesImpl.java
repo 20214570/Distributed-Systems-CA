@@ -25,15 +25,15 @@ public final class Service2RenewablesImpl {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_EnergyEfficiency_turbineResponse_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_EnergyEfficiency_hydroRequest_descriptor;
+    internal_static_EnergyEfficiency_NumberMessage_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_EnergyEfficiency_hydroRequest_fieldAccessorTable;
+      internal_static_EnergyEfficiency_NumberMessage_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_EnergyEfficiency_hydroResponse_descriptor;
+    internal_static_EnergyEfficiency_CalculateResponse_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_EnergyEfficiency_hydroResponse_fieldAccessorTable;
+      internal_static_EnergyEfficiency_CalculateResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -46,15 +46,16 @@ public final class Service2RenewablesImpl {
       "\n\030Service2Renewables.proto\022\020EnergyEffici" +
       "ency\"!\n\016turbineRequest\022\017\n\007turbine\030\001 \001(\t\"" +
       "(\n\017turbineResponse\022\025\n\rturbineStatus\030\001 \001(" +
-      "\t\"\035\n\014hydroRequest\022\r\n\005hydro\030\001 \001(\t\"$\n\rhydr" +
-      "oResponse\022\023\n\013hydroStatus\030\001 \001(\t2\306\001\n\022Servi" +
-      "ce2Renewables\022V\n\rturbineStatus\022 .EnergyE" +
-      "fficiency.turbineRequest\032!.EnergyEfficie" +
-      "ncy.turbineResponse\"\000\022X\n\021hydroPowerContr" +
-      "ol\022\036.EnergyEfficiency.hydroRequest\032\037.Ene" +
-      "rgyEfficiency.hydroResponse\"\000(\001B8\n\034ds.ex" +
-      "amples.EnergyEfficiencyB\026Service2Renewab" +
-      "lesImplP\001b\006proto3"
+      "\t\"\037\n\rNumberMessage\022\016\n\006number\030\001 \001(\002\"4\n\021Ca" +
+      "lculateResponse\022\016\n\006result\030\001 \001(\002\022\017\n\007messa" +
+      "ge\030\002 \001(\t2\314\001\n\022Service2Renewables\022V\n\rturbi" +
+      "neStatus\022 .EnergyEfficiency.turbineReque" +
+      "st\032!.EnergyEfficiency.turbineResponse\"\000\022" +
+      "^\n\022hydroAverageValues\022\037.EnergyEfficiency" +
+      ".NumberMessage\032#.EnergyEfficiency.Calcul" +
+      "ateResponse\"\000(\001B8\n\034ds.examples.EnergyEff" +
+      "iciencyB\026Service2RenewablesImplP\001b\006proto" +
+      "3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -80,18 +81,18 @@ public final class Service2RenewablesImpl {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_EnergyEfficiency_turbineResponse_descriptor,
         new java.lang.String[] { "TurbineStatus", });
-    internal_static_EnergyEfficiency_hydroRequest_descriptor =
+    internal_static_EnergyEfficiency_NumberMessage_descriptor =
       getDescriptor().getMessageTypes().get(2);
-    internal_static_EnergyEfficiency_hydroRequest_fieldAccessorTable = new
+    internal_static_EnergyEfficiency_NumberMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_EnergyEfficiency_hydroRequest_descriptor,
-        new java.lang.String[] { "Hydro", });
-    internal_static_EnergyEfficiency_hydroResponse_descriptor =
+        internal_static_EnergyEfficiency_NumberMessage_descriptor,
+        new java.lang.String[] { "Number", });
+    internal_static_EnergyEfficiency_CalculateResponse_descriptor =
       getDescriptor().getMessageTypes().get(3);
-    internal_static_EnergyEfficiency_hydroResponse_fieldAccessorTable = new
+    internal_static_EnergyEfficiency_CalculateResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_EnergyEfficiency_hydroResponse_descriptor,
-        new java.lang.String[] { "HydroStatus", });
+        internal_static_EnergyEfficiency_CalculateResponse_descriptor,
+        new java.lang.String[] { "Result", "Message", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

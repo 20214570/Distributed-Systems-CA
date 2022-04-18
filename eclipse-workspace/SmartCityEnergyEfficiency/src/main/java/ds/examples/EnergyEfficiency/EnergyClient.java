@@ -2,9 +2,14 @@ package ds.examples.EnergyEfficiency;
 
 import java.util.Iterator;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import ds.examples.EnergyEfficiency.Service1ElectricityGrpc.Service1ElectricityBlockingStub;
 import ds.examples.EnergyEfficiency.Service1ElectricityGrpc.Service1ElectricityStub;
+import ds.examples.EnergyEfficiency.Service2RenewablesGrpc.Service2RenewablesBlockingStub;
+import ds.examples.EnergyEfficiency.Service2RenewablesGrpc.Service2RenewablesStub;
+import ds.examples.EnergyEfficiency.CalculateResponse;
+import ds.examples.EnergyEfficiency.NumberMessage;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
@@ -15,9 +20,10 @@ public class EnergyClient {
 	
 	private static Service1ElectricityBlockingStub blockingStub;
 	private static Service1ElectricityStub asyncStub;
+	private static Service2RenewablesStub asyncStub1;
+	private static Service2RenewablesBlockingStub blockingStub2;
 
-
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 
 		ManagedChannel channel = ManagedChannelBuilder
 				.forAddress("localhost", 50051)
@@ -28,26 +34,37 @@ public class EnergyClient {
 		blockingStub = Service1ElectricityGrpc.newBlockingStub(channel);
 
 		asyncStub = Service1ElectricityGrpc.newStub(channel);
+		
+		asyncStub1 = Service2RenewablesGrpc.newStub(channel);
 
+		blockingStub2 = Service2RenewablesGrpc.newBlockingStub(channel);
+		
 		
 		System.out.println("Starting lightSensorAsyn() method...");
-		lightSensorAsyn();
+		//lightSensorAsyn();
 		System.out.println("lightSensorAsyn() method finished...");
 
 		System.out.println("Starting lightSensorBlocking() method...");
-		lightSensorBlocking();
+		//lightSensorBlocking();
 		System.out.println("lightSensorBlocking() method finished...");
 		
 		
 		System.out.println("Starting bridgeLights method...");
-		bridgeLights();		
+		//bridgeLights();		
 		System.out.println("...bridgeLights method completed!");
 		
 		
+		System.out.println("Starting turbineStatus method...");
+		//turbineStatus();		
+		System.out.println("...turbineStatus method completed!");
 		
+		System.out.println("Starting hydroAverageValues method...");
+		hydroAverageValues();
+		System.out.println("...hydroAverageValues method completed!");
+
 		System.out.println("Services completed! Channel shutting down now...");
 
-
+		channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
 		
 	}//closes main method
 
@@ -95,7 +112,7 @@ public class EnergyClient {
 
 			@Override
 			public void onCompleted() {
-				System.out.println("Stream from server is completed ... received "+ count+ " lumens numbers");
+				System.out.println("Stream from server is completed ... received "+ count+ " lux numbers");
 			}
 
 		};
@@ -184,19 +201,89 @@ public class EnergyClient {
 	
 	
 	
-	/*
-	//need to text this by sending back a string of results (can the results be hardcoded?)
+	
 	public static void turbineStatus() {
-		//int num1 = 40;
-		//int num2 = 50;
-		String turbine = "Status A O K";
+
+		String turbine = "What is the turbine status?";
 		
+		//builds request
+		turbineRequest request = turbineRequest.newBuilder().setTurbine(turbine).build();
+		//builds response
+		turbineResponse response = blockingStub2.turbineStatus(request);
 
-		turbineRequest request = turbineRequest.newBuilder().setturbine(turbine).build();
-		turbineResponse response = blockingStub.turbineStatus(request);
-
-		System.out.println("res: " + response +);
+		System.out.println("Response from server: " + response.getTurbineStatus());
 	}
-	*/
+	
+	
+	public static void hydroAverageValues() {
+
+		StreamObserver<CalculateResponse> responseObserver = new StreamObserver<CalculateResponse>() {
+
+			@Override
+			public void onNext(CalculateResponse msg) {
+				System.out.println("Receiving average water flow figure from server: " + msg.getResult() +" gallons per second." );
+			}
+
+			@Override
+			public void onError(Throwable t) {
+				t.printStackTrace();
+			}
+
+			@Override
+			public void onCompleted() {
+				System.out.println("Client stream is completed...");
+			}
+
+		};
+
+
+		StreamObserver<NumberMessage> requestObserver = asyncStub1.hydroAverageValues(responseObserver);
+		try {
+			requestObserver.onNext(NumberMessage.newBuilder().setNumber(128).build());
+			Thread.sleep(500);
+
+			requestObserver.onNext(NumberMessage.newBuilder().setNumber(120).build());
+			Thread.sleep(500);
+
+			requestObserver.onNext(NumberMessage.newBuilder().setNumber(132).build());
+			Thread.sleep(500);
+
+			requestObserver.onNext(NumberMessage.newBuilder().setNumber(121).build());
+			Thread.sleep(500);
+
+			requestObserver.onNext(NumberMessage.newBuilder().setNumber(49).build());
+			Thread.sleep(500);
+
+			requestObserver.onNext(NumberMessage.newBuilder().setNumber(87).build());
+			Thread.sleep(500);
+
+			requestObserver.onNext(NumberMessage.newBuilder().setNumber(93).build());
+			Thread.sleep(500);
+
+			requestObserver.onNext(NumberMessage.newBuilder().setNumber(85).build());
+			Thread.sleep(500);
+
+			requestObserver.onNext(NumberMessage.newBuilder().setNumber(97).build());
+			Thread.sleep(500);
+
+			requestObserver.onNext(NumberMessage.newBuilder().setNumber(119).build());
+			Thread.sleep(500);
+
+
+			// Mark the end of requests
+			requestObserver.onCompleted();
+
+			
+			Thread.sleep(10000);
+			
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {			
+			e.printStackTrace();
+		}
+
+	}//closes the hydroAverageValues method
+	
+	
 	
 }//closes the class

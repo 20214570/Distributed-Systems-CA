@@ -62,36 +62,36 @@ public final class Service2RenewablesGrpc {
      return getTurbineStatusMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<ds.examples.EnergyEfficiency.hydroRequest,
-      ds.examples.EnergyEfficiency.hydroResponse> getHydroPowerControlMethod;
+  private static volatile io.grpc.MethodDescriptor<ds.examples.EnergyEfficiency.NumberMessage,
+      ds.examples.EnergyEfficiency.CalculateResponse> getHydroAverageValuesMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "hydroPowerControl",
-      requestType = ds.examples.EnergyEfficiency.hydroRequest.class,
-      responseType = ds.examples.EnergyEfficiency.hydroResponse.class,
+      fullMethodName = SERVICE_NAME + '/' + "hydroAverageValues",
+      requestType = ds.examples.EnergyEfficiency.NumberMessage.class,
+      responseType = ds.examples.EnergyEfficiency.CalculateResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING)
-  public static io.grpc.MethodDescriptor<ds.examples.EnergyEfficiency.hydroRequest,
-      ds.examples.EnergyEfficiency.hydroResponse> getHydroPowerControlMethod() {
-    io.grpc.MethodDescriptor<ds.examples.EnergyEfficiency.hydroRequest, ds.examples.EnergyEfficiency.hydroResponse> getHydroPowerControlMethod;
-    if ((getHydroPowerControlMethod = Service2RenewablesGrpc.getHydroPowerControlMethod) == null) {
+  public static io.grpc.MethodDescriptor<ds.examples.EnergyEfficiency.NumberMessage,
+      ds.examples.EnergyEfficiency.CalculateResponse> getHydroAverageValuesMethod() {
+    io.grpc.MethodDescriptor<ds.examples.EnergyEfficiency.NumberMessage, ds.examples.EnergyEfficiency.CalculateResponse> getHydroAverageValuesMethod;
+    if ((getHydroAverageValuesMethod = Service2RenewablesGrpc.getHydroAverageValuesMethod) == null) {
       synchronized (Service2RenewablesGrpc.class) {
-        if ((getHydroPowerControlMethod = Service2RenewablesGrpc.getHydroPowerControlMethod) == null) {
-          Service2RenewablesGrpc.getHydroPowerControlMethod = getHydroPowerControlMethod = 
-              io.grpc.MethodDescriptor.<ds.examples.EnergyEfficiency.hydroRequest, ds.examples.EnergyEfficiency.hydroResponse>newBuilder()
+        if ((getHydroAverageValuesMethod = Service2RenewablesGrpc.getHydroAverageValuesMethod) == null) {
+          Service2RenewablesGrpc.getHydroAverageValuesMethod = getHydroAverageValuesMethod = 
+              io.grpc.MethodDescriptor.<ds.examples.EnergyEfficiency.NumberMessage, ds.examples.EnergyEfficiency.CalculateResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING)
               .setFullMethodName(generateFullMethodName(
-                  "EnergyEfficiency.Service2Renewables", "hydroPowerControl"))
+                  "EnergyEfficiency.Service2Renewables", "hydroAverageValues"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  ds.examples.EnergyEfficiency.hydroRequest.getDefaultInstance()))
+                  ds.examples.EnergyEfficiency.NumberMessage.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  ds.examples.EnergyEfficiency.hydroResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new Service2RenewablesMethodDescriptorSupplier("hydroPowerControl"))
+                  ds.examples.EnergyEfficiency.CalculateResponse.getDefaultInstance()))
+                  .setSchemaDescriptor(new Service2RenewablesMethodDescriptorSupplier("hydroAverageValues"))
                   .build();
           }
         }
      }
-     return getHydroPowerControlMethod;
+     return getHydroAverageValuesMethod;
   }
 
   /**
@@ -133,9 +133,9 @@ public final class Service2RenewablesGrpc {
 
     /**
      */
-    public io.grpc.stub.StreamObserver<ds.examples.EnergyEfficiency.hydroRequest> hydroPowerControl(
-        io.grpc.stub.StreamObserver<ds.examples.EnergyEfficiency.hydroResponse> responseObserver) {
-      return asyncUnimplementedStreamingCall(getHydroPowerControlMethod(), responseObserver);
+    public io.grpc.stub.StreamObserver<ds.examples.EnergyEfficiency.NumberMessage> hydroAverageValues(
+        io.grpc.stub.StreamObserver<ds.examples.EnergyEfficiency.CalculateResponse> responseObserver) {
+      return asyncUnimplementedStreamingCall(getHydroAverageValuesMethod(), responseObserver);
     }
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
@@ -148,12 +148,12 @@ public final class Service2RenewablesGrpc {
                 ds.examples.EnergyEfficiency.turbineResponse>(
                   this, METHODID_TURBINE_STATUS)))
           .addMethod(
-            getHydroPowerControlMethod(),
+            getHydroAverageValuesMethod(),
             asyncClientStreamingCall(
               new MethodHandlers<
-                ds.examples.EnergyEfficiency.hydroRequest,
-                ds.examples.EnergyEfficiency.hydroResponse>(
-                  this, METHODID_HYDRO_POWER_CONTROL)))
+                ds.examples.EnergyEfficiency.NumberMessage,
+                ds.examples.EnergyEfficiency.CalculateResponse>(
+                  this, METHODID_HYDRO_AVERAGE_VALUES)))
           .build();
     }
   }
@@ -189,10 +189,10 @@ public final class Service2RenewablesGrpc {
 
     /**
      */
-    public io.grpc.stub.StreamObserver<ds.examples.EnergyEfficiency.hydroRequest> hydroPowerControl(
-        io.grpc.stub.StreamObserver<ds.examples.EnergyEfficiency.hydroResponse> responseObserver) {
+    public io.grpc.stub.StreamObserver<ds.examples.EnergyEfficiency.NumberMessage> hydroAverageValues(
+        io.grpc.stub.StreamObserver<ds.examples.EnergyEfficiency.CalculateResponse> responseObserver) {
       return asyncClientStreamingCall(
-          getChannel().newCall(getHydroPowerControlMethod(), getCallOptions()), responseObserver);
+          getChannel().newCall(getHydroAverageValuesMethod(), getCallOptions()), responseObserver);
     }
   }
 
@@ -256,7 +256,7 @@ public final class Service2RenewablesGrpc {
   }
 
   private static final int METHODID_TURBINE_STATUS = 0;
-  private static final int METHODID_HYDRO_POWER_CONTROL = 1;
+  private static final int METHODID_HYDRO_AVERAGE_VALUES = 1;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -289,9 +289,9 @@ public final class Service2RenewablesGrpc {
     public io.grpc.stub.StreamObserver<Req> invoke(
         io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
-        case METHODID_HYDRO_POWER_CONTROL:
-          return (io.grpc.stub.StreamObserver<Req>) serviceImpl.hydroPowerControl(
-              (io.grpc.stub.StreamObserver<ds.examples.EnergyEfficiency.hydroResponse>) responseObserver);
+        case METHODID_HYDRO_AVERAGE_VALUES:
+          return (io.grpc.stub.StreamObserver<Req>) serviceImpl.hydroAverageValues(
+              (io.grpc.stub.StreamObserver<ds.examples.EnergyEfficiency.CalculateResponse>) responseObserver);
         default:
           throw new AssertionError();
       }
@@ -344,7 +344,7 @@ public final class Service2RenewablesGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new Service2RenewablesFileDescriptorSupplier())
               .addMethod(getTurbineStatusMethod())
-              .addMethod(getHydroPowerControlMethod())
+              .addMethod(getHydroAverageValuesMethod())
               .build();
         }
       }

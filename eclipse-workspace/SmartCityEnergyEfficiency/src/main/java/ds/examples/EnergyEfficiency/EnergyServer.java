@@ -1,9 +1,13 @@
 package ds.examples.EnergyEfficiency;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 import ds.examples.EnergyEfficiency.EnergyServer;
 import ds.examples.EnergyEfficiency.Service1ElectricityGrpc.Service1ElectricityImplBase;
+import ds.examples.EnergyEfficiency.Service2RenewablesGrpc.Service2RenewablesImplBase;
+import ds.examples.EnergyEfficiency.CalculateResponse;
+import ds.examples.EnergyEfficiency.NumberMessage;
 import ds.examples.EnergyEfficiency.lightRequest;
 import ds.examples.EnergyEfficiency.lightResponse;
 import io.grpc.Server;
@@ -11,7 +15,9 @@ import io.grpc.ServerBuilder;
 import io.grpc.ServerServiceDefinition;
 import io.grpc.stub.StreamObserver;
 
-public class EnergyServer extends Service1ElectricityImplBase {
+//public class EnergyServer extends Service1ElectricityImplBase  {
+public class EnergyServer extends Service2RenewablesImplBase  {
+//public class EnergyServer {
 
 	
 	
@@ -79,7 +85,7 @@ public class EnergyServer extends Service1ElectricityImplBase {
 		}
 
 
-		responseObserver.onCompleted();
+		responseObserver.onCompleted();//server tells the client that there are no more messages
 
 
 	}//closes lightSensor method
@@ -124,19 +130,19 @@ public class EnergyServer extends Service1ElectricityImplBase {
 				System.out.println("receiving pedestrian count completed ");
 				
 				//completed too
-				responseObserver.onCompleted();
+				responseObserver.onCompleted();//server tells the client that there are no more messages
 			}
 			
 		};
 	}
 	
 	
-	/*
-	//code below is valid, need to writer client side code to match it
+	
+	//turbineStatus method
 	public void turbineStatus(turbineRequest request, StreamObserver<turbineResponse> responseObserver) {
 		
 		//Get content of message from client
-		System.out.println("Receiving turbineStatus method " + request.getTurbine());
+		System.out.println("Query: " + request.getTurbine());
 
 		//Build response
 		turbineResponse.Builder responseBuilder = turbineResponse.newBuilder();
@@ -145,11 +151,71 @@ public class EnergyServer extends Service1ElectricityImplBase {
 	
 		responseObserver.onNext(responseBuilder.build());
 
-		responseObserver.onCompleted();
+		responseObserver.onCompleted();//server tells the client that there are no more messages
 	}//closes turbineStatus method
+	
+	
+	//hydroAverageValues method
+	public StreamObserver<NumberMessage> hydroAverageValues(
+			StreamObserver<CalculateResponse> responseObserver) {
+
+
+		return new StreamObserver<NumberMessage>() {
+
+			ArrayList<Float> list = new ArrayList();
+
+			@Override
+			public void onNext(NumberMessage request) {
+
+				System.out.println("Streaming water-flow figures from client: "+ request.getNumber() + " gallons per second."  );
+
+				list.add(request.getNumber());		           
+
+			}
+
+			@Override
+			public void onError(Throwable t) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onCompleted() {
+				System.out.printf("hydroAverageValues method complete.\n" );
+
+				double temp = 0;	
+				for(float v:  list) {
+					temp = temp + v;
+				}
+				float mean = (float) (temp/list.size());
+
+				CalculateResponse reply = CalculateResponse.newBuilder().setResult(mean).build();
+
+				responseObserver.onNext(reply);
+
+				responseObserver.onCompleted();
+
+			}
+
+		};
+
+	}//closes hydroAverageValues method
+/*
+	//turbineStatus method
+		public void turbineStatus(turbineRequest request, StreamObserver<turbineResponse> responseObserver) {
+			
+			//Get content of message from client
+			System.out.println("Query: " + request.getTurbine());
+
+			//Build response
+			turbineResponse.Builder responseBuilder = turbineResponse.newBuilder();
+			
+			responseBuilder.setTurbineStatus("Turbine ID: 4\nTurbine Brand Name: Windmaster 300\nNominal Power: 300 kW\nWind Speed: 29m/sec");
+		
+			responseObserver.onNext(responseBuilder.build());
+
+			responseObserver.onCompleted();//server tells the client that there are no more messages
+		}//closes turbineStatus method
 	*/
-	
-	
-	
 	
 }//closes EnergyEfficiencyServer
