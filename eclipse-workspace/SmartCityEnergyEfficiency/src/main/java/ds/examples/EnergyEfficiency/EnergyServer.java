@@ -131,33 +131,19 @@ public class EnergyServer extends Service1ElectricityImplBase {
 	}
 	
 	
-	
 	/*
+	//code below is valid, need to writer client side code to match it
 	public void turbineStatus(turbineRequest request, StreamObserver<turbineResponse> responseObserver) {
-
-		System.out.println("receiving turbineStatus method " + request.getturbine());
-
-		float value = Float.NaN;
-		String msg= "";
-
-		//could use this section to change temperature in a  room. Replace ADDITION etc. with ROOM 1 etc.
 		
-		if(	request.getOperation()==Operation.ADDITION)
-			value = request.getNumber1() + request.getNumber2();
-		else if(	request.getOperation()==Operation.SUBTRACTION)
-			value = request.getNumber1() - request.getNumber2();
-		else if(	request.getOperation()==Operation.MULTIPLICATION)
-			value = request.getNumber1() * request.getNumber2();
-		else if(	request.getOperation()==Operation.DIVISION)
-			value = request.getNumber1() / request.getNumber2();
-		else {
-			value = Float.NaN;
-			msg = "no supported/implemented operation";
-		}		
+		//Get content of message from client
+		System.out.println("Receiving turbineStatus method " + request.getTurbine());
 
-		turbineResponse reply = turbineResponse.newBuilder().setResult(value).setMessage(msg).build();
-
-		responseObserver.onNext(reply);
+		//Build response
+		turbineResponse.Builder responseBuilder = turbineResponse.newBuilder();
+		
+		responseBuilder.setTurbineStatus("Turbine ID: 4\nTurbine Brand Name: Windmaster 300\nNominal Power: 300 kW\nWind Speed: 29m/sec");
+	
+		responseObserver.onNext(responseBuilder.build());
 
 		responseObserver.onCompleted();
 	}//closes turbineStatus method

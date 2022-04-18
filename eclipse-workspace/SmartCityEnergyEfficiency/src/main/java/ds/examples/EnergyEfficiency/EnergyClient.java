@@ -29,18 +29,25 @@ public class EnergyClient {
 
 		asyncStub = Service1ElectricityGrpc.newStub(channel);
 
-		//System.out.println("Starting lightSensorAsyn() method...");
-		//lightSensorAsyn();
-		//System.out.println("Starting lightSensorBlocking() method...");
-		//lightSensorBlocking();
+		
+		System.out.println("Starting lightSensorAsyn() method...");
+		lightSensorAsyn();
+		System.out.println("lightSensorAsyn() method finished...");
 
+		System.out.println("Starting lightSensorBlocking() method...");
+		lightSensorBlocking();
+		System.out.println("lightSensorBlocking() method finished...");
+		
+		
 		System.out.println("Starting bridgeLights method...");
 		bridgeLights();		
 		System.out.println("...bridgeLights method completed!");
 		
+		
+		
 		System.out.println("Services completed! Channel shutting down now...");
 
-		//channel.shutdown();
+
 		
 	}//closes main method
 
@@ -61,7 +68,7 @@ public class EnergyClient {
 			e.printStackTrace();
 		}
 
-	}
+	}//closes lightSensorBlocking method
 
 
 	public static void lightSensorAsyn() {
@@ -102,7 +109,7 @@ public class EnergyClient {
 			e.printStackTrace();
 		}
 
-	}
+	}//closes lightSensorAsyn method
 	
 	
 	
