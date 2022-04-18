@@ -29,5 +29,5 @@ message remoteRequest {
 }
 
 message remoteResponse {
-	string remoteStatus  = 1;
+	string remoteChillerStatus  = 1;
 }

@@ -6,18 +6,22 @@ import java.util.Random;
 import ds.examples.EnergyEfficiency.EnergyServer;
 import ds.examples.EnergyEfficiency.Service1ElectricityGrpc.Service1ElectricityImplBase;
 import ds.examples.EnergyEfficiency.Service2RenewablesGrpc.Service2RenewablesImplBase;
+import ds.examples.EnergyEfficiency.Service3MaintenanceGrpc.Service3MaintenanceImplBase;
 import ds.examples.EnergyEfficiency.CalculateResponse;
 import ds.examples.EnergyEfficiency.NumberMessage;
 import ds.examples.EnergyEfficiency.lightRequest;
 import ds.examples.EnergyEfficiency.lightResponse;
+import ds.examples.EnergyEfficiency.remoteRequest;
+import ds.examples.EnergyEfficiency.remoteResponse;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.ServerServiceDefinition;
 import io.grpc.stub.StreamObserver;
 
-//public class EnergyServer extends Service1ElectricityImplBase  {
-public class EnergyServer extends Service2RenewablesImplBase  {
-//public class EnergyServer {
+//public class EnergyServer extends Service1ElectricityImplBase  {//used to text rpcs in Service1Electricity.proto
+//public class EnergyServer extends Service2RenewablesImplBase  {//used to text rpcs in Service12Renewables.proto
+public class EnergyServer extends Service3MaintenanceImplBase  {//used to text rpcs in Service3Maintenance.proto
+
 
 	
 	
@@ -200,22 +204,22 @@ public class EnergyServer extends Service2RenewablesImplBase  {
 		};
 
 	}//closes hydroAverageValues method
-/*
-	//turbineStatus method
-		public void turbineStatus(turbineRequest request, StreamObserver<turbineResponse> responseObserver) {
+
+	//remoteDiagnostics method
+		public void remoteDiagnostics(remoteRequest request, StreamObserver<remoteResponse> responseObserver) {
 			
 			//Get content of message from client
-			System.out.println("Query: " + request.getTurbine());
+			System.out.println("Query: " + request.getRemote());
 
 			//Build response
-			turbineResponse.Builder responseBuilder = turbineResponse.newBuilder();
+			remoteResponse.Builder responseBuilder = remoteResponse.newBuilder();
 			
-			responseBuilder.setTurbineStatus("Turbine ID: 4\nTurbine Brand Name: Windmaster 300\nNominal Power: 300 kW\nWind Speed: 29m/sec");
+			responseBuilder.setRemoteChillerStatus("Chiller ID: 12345\nChiller Brand Name: York 2000 Centrifugal\nCooling capacity: 300 kW\nCompressor Status: ACTIVE\nAlarm Status: NONE");
 		
 			responseObserver.onNext(responseBuilder.build());
 
 			responseObserver.onCompleted();//server tells the client that there are no more messages
-		}//closes turbineStatus method
-	*/
+		}//closes remoteDiagnostics method
+	
 	
 }//closes EnergyEfficiencyServer
