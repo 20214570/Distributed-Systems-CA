@@ -67,22 +67,22 @@ public class EnergyClient {
 		
 		//Service2Renewables methods start here	
 		System.out.println("Starting turbineStatus method...");
-		turbineStatus();		
+		//turbineStatus();		
 		System.out.println("...turbineStatus method completed!\n");
 		
 		System.out.println("Starting hydroAverageValues method...");
-		hydroAverageValues();
+		//hydroAverageValues();
 		System.out.println("...hydroAverageValues method completed!\n");
 		//Service2Renewables methods end here			
 		
 		
 		//Service3Maintenance methods start here	
 		System.out.println("Starting remoteDiagnostics method...");
-		//remoteDiagnostics();
+		remoteDiagnostics();
 		System.out.println("...remoteDiagnostics method completed!\n");
 		
 		System.out.println("Starting predictiveMaintenance method...");
-		//predictiveMaintenance();
+		predictiveMaintenance();
 		System.out.println("...predictiveMaintenance method completed!\n");
 		//Service3Maintenance methods end here
 		
@@ -228,7 +228,8 @@ public class EnergyClient {
 	
 	
 	public static void turbineStatus() {
-
+		
+		try {
 		String turbine = "What is the turbine status?";
 		
 		//builds request
@@ -237,6 +238,13 @@ public class EnergyClient {
 		turbineResponse response = blockingStub2.turbineStatus(request);
 
 		System.out.println("Response from server:\n" + response.getTurbineStatus());
+		
+		} catch (StatusRuntimeException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
 	}
 	
 	
@@ -311,7 +319,7 @@ public class EnergyClient {
 	
 	//remoteDiagnostics method
 	public static void remoteDiagnostics() {
-
+		try {
 		String chiller = "What is the chiller status?";
 		
 		//builds request
@@ -321,11 +329,16 @@ public class EnergyClient {
 		//turbineResponse response = blockingStub2.turbineStatus(request);
 
 		System.out.println("Response from server:\n" + response.getRemoteChillerStatus());
+		
+		} catch (StatusRuntimeException e) {
+			e.printStackTrace();
+		}
+			
 	}//closes the remoteDiagnostics method
 	
 	
 	public static void predictiveMaintenance() {
-
+		try {
 		String maintenance = "What is the status of the next energy efficiency appointment?";
 		
 		//builds request
@@ -334,6 +347,11 @@ public class EnergyClient {
 		maintenanceResponse response = blockingStub3.predictiveMaintenance(request);
 
 		System.out.println("Response from server: " + response.getMaintenanceStatus());
+		} catch (StatusRuntimeException e) {
+			e.printStackTrace();
+		}
+		
+		
 	}//closes the predictiveMaintenance method
 	
 	

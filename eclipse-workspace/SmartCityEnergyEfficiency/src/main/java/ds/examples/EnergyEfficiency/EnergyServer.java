@@ -26,7 +26,9 @@ import ds.examples.EnergyEfficiency.maintenanceRequest;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.ServerServiceDefinition;
+import io.grpc.StatusRuntimeException;
 import io.grpc.stub.StreamObserver;
+
 
 //public class EnergyServer extends Service1ElectricityImplBase  {//used to text rpcs in Service1Electricity.proto
 //public class EnergyServer extends Service2RenewablesImplBase  {//used to text rpcs in Service12Renewables.proto
@@ -46,7 +48,7 @@ public class EnergyServer extends Service3MaintenanceImplBase  {//used to text r
 
 		try {//try/catch to catch errors and throw exceptions.
 			
-			System.out.println("Starting gRPC Server...");
+			System.out.println("Starting gRPC Server...\n");
 			
 			//uses builder pattern and calls methods to specify the port, add the service, then build and start the server.
 			Server server = ServerBuilder.forPort(port).addService(energyServer).build().start();
@@ -101,8 +103,8 @@ public class EnergyServer extends Service3MaintenanceImplBase  {//used to text r
 
 		responseObserver.onCompleted();//server tells the client that there are no more messages
 
-
 	}//closes lightSensor method
+	
 	
 	//the power for the bridge lights switches between mains electricity and the foot fall kinetic generator depending on the level of foot traffic on the bridge.
 	// see https://futurism.com/new-flooring-tech-generates-electricity-through-your-footsteps
@@ -154,6 +156,7 @@ public class EnergyServer extends Service3MaintenanceImplBase  {//used to text r
 	//turbineStatus method
 		public void turbineStatus(turbineRequest request, StreamObserver<turbineResponse> responseObserver) {
 			
+			try {
 			//Get content of message from client
 			System.out.println("Query: " + request.getTurbine());
 
@@ -165,6 +168,10 @@ public class EnergyServer extends Service3MaintenanceImplBase  {//used to text r
 			responseObserver.onNext(responseBuilder.build());
 
 			responseObserver.onCompleted();//server tells the client that there are no more messages
+			
+			} catch (StatusRuntimeException e) {
+				e.printStackTrace();
+			}
 	}//closes turbineStatus method
 
 	
@@ -188,12 +195,12 @@ public class EnergyServer extends Service3MaintenanceImplBase  {//used to text r
 
 			@Override
 			public void onError(Throwable t) {
-				// TODO Auto-generated method stub
-
+				System.out.println("WARNING: Error in hydroAverageValues() method.");
 			}
 
 			@Override
 			public void onCompleted() {
+				try {
 				System.out.printf("hydroAverageValues method complete.\n" );
 
 				double temp = 0;	
@@ -207,6 +214,10 @@ public class EnergyServer extends Service3MaintenanceImplBase  {//used to text r
 				responseObserver.onNext(reply);
 
 				responseObserver.onCompleted();
+				
+				} catch (StatusRuntimeException e) {
+					e.printStackTrace();
+				}
 
 			}
 
@@ -216,9 +227,9 @@ public class EnergyServer extends Service3MaintenanceImplBase  {//used to text r
 
 	//remoteDiagnostics method
 		public void remoteDiagnostics(remoteRequest request, StreamObserver<remoteResponse> responseObserver) {
-			
+			try {
 			//Get content of message from client
-			System.out.println("Query: " + request.getRemote());
+			System.out.println("Query: " + request.getRemote() + "\n");
 
 			//Build response
 			remoteResponse.Builder responseBuilder = remoteResponse.newBuilder();
@@ -228,14 +239,17 @@ public class EnergyServer extends Service3MaintenanceImplBase  {//used to text r
 			responseObserver.onNext(responseBuilder.build());
 
 			responseObserver.onCompleted();//server tells the client that there are no more messages
+			} catch (StatusRuntimeException e) {
+				e.printStackTrace();
+			}
 		}//closes remoteDiagnostics method
 	
 		
 		//predictiveMaintenance method
 		public void predictiveMaintenance(maintenanceRequest request, StreamObserver<maintenanceResponse> responseObserver) {
-			
+			try {
 			//Get content of message from client
-			System.out.println("Query: " + request.getMaintenance());
+			System.out.println("Query: " + request.getMaintenance() + "\n");
 
 			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd MM yyyy");
 			String lastAppointment = "23 01 2022";
@@ -256,6 +270,10 @@ public class EnergyServer extends Service3MaintenanceImplBase  {//used to text r
 			responseObserver.onNext(responseBuilder.build());
 
 			responseObserver.onCompleted();//server tells the client that there are no more messages
+			
+			} catch (StatusRuntimeException e) {
+				e.printStackTrace();
+			}
 		}//closes predictiveMaintenance method
 		
 	
