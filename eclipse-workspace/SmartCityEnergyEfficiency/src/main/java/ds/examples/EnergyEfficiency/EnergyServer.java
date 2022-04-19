@@ -1,7 +1,15 @@
 package ds.examples.EnergyEfficiency;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.*;
 import java.util.Random;
 import ds.examples.EnergyEfficiency.EnergyServer;
 import ds.examples.EnergyEfficiency.Service1ElectricityGrpc.Service1ElectricityImplBase;
@@ -13,6 +21,8 @@ import ds.examples.EnergyEfficiency.lightRequest;
 import ds.examples.EnergyEfficiency.lightResponse;
 import ds.examples.EnergyEfficiency.remoteRequest;
 import ds.examples.EnergyEfficiency.remoteResponse;
+import ds.examples.EnergyEfficiency.maintenanceResponse;
+import ds.examples.EnergyEfficiency.maintenanceRequest;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.ServerServiceDefinition;
@@ -141,23 +151,22 @@ public class EnergyServer extends Service3MaintenanceImplBase  {//used to text r
 	}
 	
 	
-	
 	//turbineStatus method
-	public void turbineStatus(turbineRequest request, StreamObserver<turbineResponse> responseObserver) {
-		
-		//Get content of message from client
-		System.out.println("Query: " + request.getTurbine());
+		public void turbineStatus(turbineRequest request, StreamObserver<turbineResponse> responseObserver) {
+			
+			//Get content of message from client
+			System.out.println("Query: " + request.getTurbine());
 
-		//Build response
-		turbineResponse.Builder responseBuilder = turbineResponse.newBuilder();
+			//Build response
+			turbineResponse.Builder responseBuilder = turbineResponse.newBuilder();
+			
+			responseBuilder.setTurbineStatus("Turbine ID: 4\nTurbine Brand Name: Windmaster 300\nNominal Power: 300 kW\nWind Speed: 29m/sec");
 		
-		responseBuilder.setTurbineStatus("Turbine ID: 4\nTurbine Brand Name: Windmaster 300\nNominal Power: 300 kW\nWind Speed: 29m/sec");
-	
-		responseObserver.onNext(responseBuilder.build());
+			responseObserver.onNext(responseBuilder.build());
 
-		responseObserver.onCompleted();//server tells the client that there are no more messages
+			responseObserver.onCompleted();//server tells the client that there are no more messages
 	}//closes turbineStatus method
-	
+
 	
 	//hydroAverageValues method
 	public StreamObserver<NumberMessage> hydroAverageValues(
@@ -221,5 +230,33 @@ public class EnergyServer extends Service3MaintenanceImplBase  {//used to text r
 			responseObserver.onCompleted();//server tells the client that there are no more messages
 		}//closes remoteDiagnostics method
 	
+		
+		//predictiveMaintenance method
+		public void predictiveMaintenance(maintenanceRequest request, StreamObserver<maintenanceResponse> responseObserver) {
+			
+			//Get content of message from client
+			System.out.println("Query: " + request.getMaintenance());
+
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd MM yyyy");
+			String lastAppointment = "23 01 2022";
+			String nextAppointment = "27 04 2023";
+
+			LocalDate date1 = LocalDate.parse(lastAppointment, dtf);
+			LocalDate date2 = LocalDate.parse(nextAppointment, dtf);
+			//long daysBetween = Duration.between(date1, date2).toDays();
+			long daysBetween = ChronoUnit.DAYS.between(date1, date2);
+			//System.out.println ("Days: " + daysBetween);
+			
+			
+			//Build response
+			maintenanceResponse.Builder responseBuilder = maintenanceResponse.newBuilder();
+			
+			responseBuilder.setMaintenanceStatus("The last scheduled energy efficiency appointment was " + lastAppointment + ".\nThe next scheduled energy efficiency appointment is " + nextAppointment + ".\nThere are " + daysBetween + " days between the energy efficiency appointments.");
+		
+			responseObserver.onNext(responseBuilder.build());
+
+			responseObserver.onCompleted();//server tells the client that there are no more messages
+		}//closes predictiveMaintenance method
+		
 	
 }//closes EnergyEfficiencyServer

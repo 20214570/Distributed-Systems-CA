@@ -10,7 +10,7 @@ package EnergyEfficiency;
 // Interface exported by the server.
 service Service3Maintenance {
 
-  rpc predictiveMaintenance(stream maintenanceRequest) returns (stream maintenanceResponse) {}//bi-directional
+  rpc predictiveMaintenance(maintenanceRequest) returns (maintenanceResponse) {}//unary
   
   rpc remoteDiagnostics(remoteRequest) returns (remoteResponse) {}//unary
 

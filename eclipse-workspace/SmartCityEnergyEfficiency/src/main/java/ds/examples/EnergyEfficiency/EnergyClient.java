@@ -13,6 +13,8 @@ import ds.examples.EnergyEfficiency.CalculateResponse;
 import ds.examples.EnergyEfficiency.NumberMessage;
 import ds.examples.EnergyEfficiency.remoteRequest;
 import ds.examples.EnergyEfficiency.remoteResponse;
+import ds.examples.EnergyEfficiency.maintenanceResponse;
+import ds.examples.EnergyEfficiency.maintenanceRequest;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
@@ -45,29 +47,45 @@ public class EnergyClient {
 		
 		blockingStub3 = Service3MaintenanceGrpc.newBlockingStub(channel);
 		
+		
+		
+		
+		//Service1Electricity methods start here
 		System.out.println("Starting lightSensorAsyn() method...");
 		//lightSensorAsyn();
-		System.out.println("lightSensorAsyn() method finished...");
+		System.out.println("lightSensorAsyn() method completed!\n");
 
 		System.out.println("Starting lightSensorBlocking() method...");
 		//lightSensorBlocking();
-		System.out.println("lightSensorBlocking() method finished...");
+		System.out.println("lightSensorBlocking() method completed!\n");
 		
 		System.out.println("Starting bridgeLights method...");
 		//bridgeLights();		
-		System.out.println("...bridgeLights method completed!");
+		System.out.println("...bridgeLights method completed!\n");
+		//Service1Electricity methods end here
+			
 		
+		//Service2Renewables methods start here	
 		System.out.println("Starting turbineStatus method...");
-		//turbineStatus();		
-		System.out.println("...turbineStatus method completed!");
+		turbineStatus();		
+		System.out.println("...turbineStatus method completed!\n");
 		
 		System.out.println("Starting hydroAverageValues method...");
-		//hydroAverageValues();
-		System.out.println("...hydroAverageValues method completed!");
+		hydroAverageValues();
+		System.out.println("...hydroAverageValues method completed!\n");
+		//Service2Renewables methods end here			
 		
+		
+		//Service3Maintenance methods start here	
 		System.out.println("Starting remoteDiagnostics method...");
-		remoteDiagnostics();
-		System.out.println("...remoteDiagnostics method completed!");
+		//remoteDiagnostics();
+		System.out.println("...remoteDiagnostics method completed!\n");
+		
+		System.out.println("Starting predictiveMaintenance method...");
+		//predictiveMaintenance();
+		System.out.println("...predictiveMaintenance method completed!\n");
+		//Service3Maintenance methods end here
+		
 
 		System.out.println("Services completed! Channel shutting down now...");
 
@@ -218,7 +236,7 @@ public class EnergyClient {
 		//builds response
 		turbineResponse response = blockingStub2.turbineStatus(request);
 
-		System.out.println("Response from server: " + response.getTurbineStatus());
+		System.out.println("Response from server:\n" + response.getTurbineStatus());
 	}
 	
 	
@@ -302,7 +320,22 @@ public class EnergyClient {
 		remoteResponse response = blockingStub3.remoteDiagnostics(request);
 		//turbineResponse response = blockingStub2.turbineStatus(request);
 
-		System.out.println("Response from server: " + response.getRemoteChillerStatus());
-	}
+		System.out.println("Response from server:\n" + response.getRemoteChillerStatus());
+	}//closes the remoteDiagnostics method
+	
+	
+	public static void predictiveMaintenance() {
+
+		String maintenance = "What is the status of the next energy efficiency appointment?";
+		
+		//builds request
+		maintenanceRequest request = maintenanceRequest.newBuilder().setMaintenance(maintenance).build();
+		//builds response
+		maintenanceResponse response = blockingStub3.predictiveMaintenance(request);
+
+		System.out.println("Response from server: " + response.getMaintenanceStatus());
+	}//closes the predictiveMaintenance method
+	
+	
 	
 }//closes the class
