@@ -19,6 +19,7 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
 import io.grpc.stub.StreamObserver;
+import javax.jmdns.ServiceInfo;
 
 public class EnergyClient {
 
@@ -31,6 +32,17 @@ public class EnergyClient {
 
 	public static void main(String[] args) throws InterruptedException {
 
+		
+		//jmDNS service discovery
+		ServiceInfo serviceInfo;
+		String service_type = "_grpc._tcp.local.";//the service type is all that we give to jmDNS.
+		//Now retrieve the service info - all we are supplying is the service type.
+		serviceInfo = SimpleServiceDiscovery.run(service_type);//running a utility class.
+		//Use the serviceInfo to retrieve the port
+		int port = serviceInfo.getPort();
+		String host = "localhost";
+		
+		
 		ManagedChannel channel = ManagedChannelBuilder
 				.forAddress("localhost", 50051)
 				.usePlaintext()
@@ -51,27 +63,27 @@ public class EnergyClient {
 		
 		
 		//Service1Electricity methods start here
-		System.out.println("Starting lightSensorAsyn() method...");
-		//lightSensorAsyn();
-		System.out.println("lightSensorAsyn() method completed!\n");
-
 		System.out.println("Starting lightSensorBlocking() method...");
-		//lightSensorBlocking();
+		lightSensorBlocking();
 		System.out.println("lightSensorBlocking() method completed!\n");
 		
+		System.out.println("Starting lightSensorAsyn() method...");
+		lightSensorAsyn();
+		System.out.println("lightSensorAsyn() method completed!\n");
+		
 		System.out.println("Starting bridgeLights method...");
-		//bridgeLights();		
+		bridgeLights();		
 		System.out.println("...bridgeLights method completed!\n");
 		//Service1Electricity methods end here
 			
 		
 		//Service2Renewables methods start here	
 		System.out.println("Starting turbineStatus method...");
-		//turbineStatus();		
+		turbineStatus();		
 		System.out.println("...turbineStatus method completed!\n");
 		
 		System.out.println("Starting hydroAverageValues method...");
-		//hydroAverageValues();
+		hydroAverageValues();
 		System.out.println("...hydroAverageValues method completed!\n");
 		//Service2Renewables methods end here			
 		
@@ -93,7 +105,7 @@ public class EnergyClient {
 		
 	}//closes main method
 
-	//blocking server-streaming
+	//lightSensorBLocking method - blocking server-streaming
 	public static void lightSensorBlocking() {//blocking waits for response, async doesn't
 		lightRequest request = lightRequest.newBuilder()
 				.setNumbers(5).setMin(0).setMax(2000).build();
@@ -112,8 +124,8 @@ public class EnergyClient {
 
 	}//closes lightSensorBlocking method
 
-
-	public static void lightSensorAsyn() {
+	//lightSensorAsyn method - async server streaming
+	public static void lightSensorAsyn() {//async waits for response
 
 		lightRequest request = lightRequest.newBuilder()
 				.setNumbers(10).setMin(0).setMax(2000).build();//10 random numbers between 0 and 2000
@@ -154,7 +166,7 @@ public class EnergyClient {
 	}//closes lightSensorAsyn method
 	
 	
-	
+	//bridgeLights method - sends the number of pedestrians on the bridge to the server and the server can switch between mains electricity and kinetic generated electricity from footsteps.
 	public static void bridgeLights() {
 
 
@@ -226,11 +238,11 @@ public class EnergyClient {
 	
 	
 	
-	
+	//turbineStatus method - sends the status of a wind turbine on the roof of a building.
 	public static void turbineStatus() {
 		
 		try {
-		String turbine = "What is the turbine status?";
+		String turbine = "What is the wind turbine status?";
 		
 		//builds request
 		turbineRequest request = turbineRequest.newBuilder().setTurbine(turbine).build();
@@ -247,7 +259,7 @@ public class EnergyClient {
 		
 	}
 	
-	
+	//hydroAverageValues method - calculates the average water flow over a hydro-electric dam.
 	public static void hydroAverageValues() {
 
 		StreamObserver<CalculateResponse> responseObserver = new StreamObserver<CalculateResponse>() {
@@ -320,7 +332,7 @@ public class EnergyClient {
 	//remoteDiagnostics method
 	public static void remoteDiagnostics() {
 		try {
-		String chiller = "What is the chiller status?";
+		String chiller = "What is the energy status of the chiller?";
 		
 		//builds request
 		remoteRequest request = remoteRequest.newBuilder().setRemote(chiller).build();
@@ -336,7 +348,7 @@ public class EnergyClient {
 			
 	}//closes the remoteDiagnostics method
 	
-	
+	//predictiveMaintenance method
 	public static void predictiveMaintenance() {
 		try {
 		String maintenance = "What is the status of the next energy efficiency appointment?";

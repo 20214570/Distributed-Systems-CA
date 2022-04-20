@@ -30,30 +30,43 @@ import io.grpc.StatusRuntimeException;
 import io.grpc.stub.StreamObserver;
 
 
-//public class EnergyServer extends Service1ElectricityImplBase  {//used to text rpcs in Service1Electricity.proto
+public class EnergyServer extends Service1ElectricityImplBase  {//used to text rpcs in Service1Electricity.proto
 //public class EnergyServer extends Service2RenewablesImplBase  {//used to text rpcs in Service12Renewables.proto
-public class EnergyServer extends Service3MaintenanceImplBase  {//used to text rpcs in Service3Maintenance.proto
+//public class EnergyServer extends Service3MaintenanceImplBase  {//used to text rpcs in Service3Maintenance.proto
 
 
-	
+	//put different classes in different files, use same port 
 	
 	public static void main(String[] args) {
 		
-		//creates energyServer object.
+		//creates three separate energyServer objects, one for each service.
 		EnergyServer energyServer = new EnergyServer();
-
+		EnergyServer2 energyServer2 = new EnergyServer2();
+		EnergyServer3 energyServer3 = new EnergyServer3();
+		
 		//conventional port for gRPC.		
 		int port = 50051;
 		
+		
+		//jmDNS service registration - as the services are all on the same port, I register/discover them as one. 
+		String service_type = "_grpc._tcp.local.";
+		String service_name = "Service1Electricity/Service2Renewables/Service3Maintenance";
+		SimpleServiceRegistration ssr = new SimpleServiceRegistration();//registration class
+		ssr.run(port, service_type, service_name);
+
 
 		try {//try/catch to catch errors and throw exceptions.
 			
 			System.out.println("Starting gRPC Server...\n");
 			
 			//uses builder pattern and calls methods to specify the port, add the service, then build and start the server.
-			Server server = ServerBuilder.forPort(port).addService(energyServer).build().start();
+			//Server server = ServerBuilder.forPort(port).addService(energyServer).build().start();
 
-			System.out.println("Smart City (energy efficiency) server started, listening on " + port);
+			
+			//Running three servers from one port
+			Server server = ServerBuilder.forPort(port).addService(energyServer).addService(energyServer2).addService(energyServer3).build().start();
+
+			System.out.println("Smart City (energy efficiency) server started, listening on " + port + "\n");
 
 			server.awaitTermination();
 
@@ -75,7 +88,7 @@ public class EnergyServer extends Service3MaintenanceImplBase  {//used to text r
 	public void lightSensor(lightRequest request,StreamObserver<lightResponse> responseObserver) {
 
 		//Finds out the content of the message sent by the client using getNumbers, getMin, getMax. 
-		System.out.printf("receiving lux data: %d from: %d to: %d \n",
+		System.out.printf("\nReceiving lux data: %d from: %d to: %d",
 				request.getNumbers(), request.getMin(), request.getMax()  );
 		//this method is part of the Print Stream class. "d" formats decimal integers.
 
@@ -116,7 +129,7 @@ public class EnergyServer extends Service3MaintenanceImplBase  {//used to text r
 			public void onNext(bridgeMessage msg) {//when a message is sent to server from client
 				
 				//gets pedestrian count from client
-				System.out.println("receiving bridgeLights pedestrian count: "+ msg.getPedestrianCount());
+				System.out.println("Receiving bridgeLights pedestrian count: "+ msg.getPedestrianCount());
 				
 				//builds response
 				bridgeResponse.Builder responseBuilder = bridgeResponse.newBuilder();
@@ -143,7 +156,7 @@ public class EnergyServer extends Service3MaintenanceImplBase  {//used to text r
 
 			@Override
 			public void onCompleted() {
-				System.out.println("receiving pedestrian count completed ");
+				System.out.println("Receiving pedestrian count completed!\n");
 				
 				//completed too
 				responseObserver.onCompleted();//server tells the client that there are no more messages
@@ -152,7 +165,7 @@ public class EnergyServer extends Service3MaintenanceImplBase  {//used to text r
 		};
 	}
 	
-	
+	/*
 	//turbineStatus method
 		public void turbineStatus(turbineRequest request, StreamObserver<turbineResponse> responseObserver) {
 			
@@ -224,7 +237,11 @@ public class EnergyServer extends Service3MaintenanceImplBase  {//used to text r
 		};
 
 	}//closes hydroAverageValues method
+	*/
 
+
+
+	/*
 	//remoteDiagnostics method
 		public void remoteDiagnostics(remoteRequest request, StreamObserver<remoteResponse> responseObserver) {
 			try {
@@ -275,6 +292,6 @@ public class EnergyServer extends Service3MaintenanceImplBase  {//used to text r
 				e.printStackTrace();
 			}
 		}//closes predictiveMaintenance method
-		
+		*/
 	
 }//closes EnergyEfficiencyServer
