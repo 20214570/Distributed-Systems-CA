@@ -25,20 +25,11 @@ public class EnergyClient {
 
 	public static void main(String[] args) throws InterruptedException {
 
-		/* Commenting out broken jmDNS
-		//jmDNS service discovery
-		ServiceInfo serviceInfo;
-		String service_type = "_grpc._tcp.local.";//the service type is all that we give to jmDNS.
-		//Now retrieve the service info - all we are supplying is the service type.
-		serviceInfo = ServiceDiscovery.run(service_type);//running a utility class.
-		//Use the serviceInfo to retrieve the port
-		int port = serviceInfo.getPort();
-		String host = "localhost";
-		*/
+
 		ServiceInfo serviceInfo;
 		String service_type = "_grpc._tcp.local.";
 		//Now retrieve the service info - all we are supplying is the service type
-		serviceInfo = SimpleServiceDiscovery.run(service_type);
+		serviceInfo = ServiceDiscovery.run(service_type);
 		//Use the serviceInfo to retrieve the port
 		int port = serviceInfo.getPort();
 		String host = "localhost";
@@ -64,7 +55,7 @@ public class EnergyClient {
 		
 		
 		//Service1Electricity methods start here
-		System.out.println("Starting methods in Service1Electricity...\n");
+		System.out.println("\nStarting methods in Service1Electricity...\n");
 		System.out.println("Starting server-streaming lightSensorBlocking() method...");
 		lightSensorBlocking();
 		System.out.println("lightSensorBlocking() method completed!\n");
@@ -74,7 +65,7 @@ public class EnergyClient {
 		System.out.println("lightSensorAsyn() method completed!\n");
 		
 		System.out.println("Starting bi-directional bridgeLights method...");
-		//bridgeLights();		
+		bridgeLights();		
 		System.out.println("...bridgeLights method completed!\n");
 		System.out.println("Methods in Service1Electricity completed!\n");
 		//Service1Electricity methods end here
@@ -84,11 +75,11 @@ public class EnergyClient {
 		System.out.println("Starting methods in Service2Renewables...\n");
 
 		System.out.println("Starting unary turbineStatus method...");
-		//turbineStatus();		
+		turbineStatus();		
 		System.out.println("...turbineStatus method completed!\n");
 		
 		System.out.println("Starting client-streaming hydroAverageValues method...");
-		//hydroAverageValues();
+		hydroAverageValues();
 		System.out.println("...hydroAverageValues method completed!\n");
 		System.out.println("Methods in Service2Renewables completed!\n");
 		//Service2Renewables methods end here			
@@ -97,11 +88,11 @@ public class EnergyClient {
 		//Service3Maintenance methods start here	
 		System.out.println("Starting methods in Service3Maintenance...\n");
 		System.out.println("Starting unary remoteDiagnostics method...");
-		//remoteDiagnostics();
+		remoteDiagnostics();
 		System.out.println("...remoteDiagnostics method completed!\n");
 		
 		System.out.println("Starting unary predictiveMaintenance method...");
-		//predictiveMaintenance();
+		predictiveMaintenance();
 		System.out.println("...predictiveMaintenance method completed!\n");
 		System.out.println("Methods in Service3Maintenance completed!\n");
 		//Service3Maintenance methods end here
@@ -123,8 +114,8 @@ public class EnergyClient {
 		
 		try {
 			//response includes a deadline
-			//Iterator<lightResponse> responses = blockingStub.withDeadlineAfter(deadlineMs, TimeUnit.MILLISECONDS).lightSensor(request);
-			Iterator<lightResponse> responses = blockingStub.lightSensor(request);
+			Iterator<lightResponse> responses = blockingStub.withDeadlineAfter(deadlineMs, TimeUnit.MILLISECONDS).lightSensor(request);
+			//Iterator<lightResponse> responses = blockingStub.lightSensor(request);
 
 			while(responses.hasNext()) {
 				lightResponse temp = responses.next();
@@ -166,14 +157,14 @@ public class EnergyClient {
 
 			@Override
 			public void onCompleted() {
-				System.out.println("Client receiving lux sensor data (asyn) stream from server: "+ count+ " lux numbers");
+				System.out.println("Client received " + count+ " lux sensor data points (asyn) in server stream.");
 			}
 
 		};
 		
 		//includes a deadline
-		//asyncStub.withDeadlineAfter(deadlineMs, TimeUnit.MILLISECONDS).lightSensor(request, responseObserver);
-		asyncStub.lightSensor(request, responseObserver);
+		asyncStub.withDeadlineAfter(deadlineMs, TimeUnit.MILLISECONDS).lightSensor(request, responseObserver);
+		//asyncStub.lightSensor(request, responseObserver);
 
 		try {
 			Thread.sleep(15000);
@@ -249,7 +240,7 @@ public class EnergyClient {
 
 
 		try {
-			Thread.sleep(15000);
+			Thread.sleep(3000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

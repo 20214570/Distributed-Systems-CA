@@ -10,7 +10,7 @@ import javax.jmdns.ServiceEvent;
 import javax.jmdns.ServiceInfo;
 import javax.jmdns.ServiceListener;
 
-public class SimpleServiceDiscovery {
+public class ServiceDiscovery {
 	
 	private int port;
 	private String host;
@@ -49,7 +49,7 @@ public class SimpleServiceDiscovery {
 			System.out.println("type " + serviceInfo.getType());
 			System.out.println("name " + serviceInfo.getName());
 			System.out.println("Computername " + serviceInfo.getServer());
-			System.out.println("desc/properties " + serviceInfo.getNiceTextString());
+			//System.out.println("desc/properties " + serviceInfo.getNiceTextString());
 			//System.out.println("desc/properties " + serviceInfo.);
 		}
 

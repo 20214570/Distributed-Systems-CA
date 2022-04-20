@@ -25,19 +25,12 @@ public class EnergyServer extends Service1ElectricityImplBase  {
 		//conventional port for gRPC.		
 		int port = 50051;
 		
-		String service_type = "_grpc._tcp.local.";
-		String service_name = "GrpcServer";
-		SimpleServiceRegistration ssr = new SimpleServiceRegistration();
-		ssr.run(port, service_type, service_name);
-		
-		/*
 		//jmDNS service registration - as the services are all on the same port, I register/discover them as one. 
 		String service_type = "_grpc._tcp.local.";
-		//String service_name = "Service1Electricity/Service2Renewables/Service3Maintenance";
-		String service_name = "GrpcServer";
-		ServiceRegistration ssr = new ServiceRegistration();//registration class
+		String service_name = "Service1Electricity/Service2Renewables/Service3Maintenance";
+		ServiceRegistration ssr = new ServiceRegistration();
 		ssr.run(port, service_type, service_name);
-		 */
+		
 
 		try {//try/catch to catch errors and throw exceptions.
 			
@@ -69,10 +62,11 @@ public class EnergyServer extends Service1ElectricityImplBase  {
 	public void lightSensor(lightRequest request,StreamObserver<lightResponse> responseObserver) {
 
 		//Finds out the content of the message sent by the client using getNumbers, getMin, getMax. 
-		System.out.printf("\nReceiving lux data request from client: %d numbers with a range from: %d to: %d",
-				request.getNumbers(), request.getMin(), request.getMax() +"\n");
+		System.out.printf("\nReceiving lux data request from client: %d numbers between %d and %d.",
+				request.getNumbers(), request.getMin(), request.getMax());
 		//this method is part of the Print Stream class. "d" formats decimal integers.
-
+		
+		
 		Random rand = new Random();
 		
 		

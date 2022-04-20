@@ -7,7 +7,7 @@ import java.net.UnknownHostException;
 import javax.jmdns.JmDNS;
 import javax.jmdns.ServiceInfo;
 
-public class SimpleServiceRegistration {
+public class ServiceRegistration {
 
 	public void run(int port, String service_type, String service_name) {
 
