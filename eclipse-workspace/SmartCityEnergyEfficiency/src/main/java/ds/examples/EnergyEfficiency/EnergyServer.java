@@ -66,16 +66,13 @@ public class EnergyServer extends Service1ElectricityImplBase  {
 				request.getNumbers(), request.getMin(), request.getMax());
 		//this method is part of the Print Stream class. "d" formats decimal integers.
 		
-		
 		Random rand = new Random();
-		
 		
 		//if statement checks if the client still needs a response
 		if (Context.current().isCancelled()) {
 			  responseObserver.onError(Status.CANCELLED.withDescription("lightSensor method cancelled by client.").asRuntimeException());
 			  return;
 		}
-		 
 		
 		for(int i=0; i<request.getNumbers(); i++) {
 			
@@ -96,9 +93,7 @@ public class EnergyServer extends Service1ElectricityImplBase  {
 			}
 		}
 
-
 		responseObserver.onCompleted();//server tells the client that there are no more messages
-
 	}//closes lightSensor method
 	
 	
@@ -156,4 +151,4 @@ public class EnergyServer extends Service1ElectricityImplBase  {
 		};
 	}
 	
-}//closes EnergyEfficiencyServer
+}//closes EnergyServer

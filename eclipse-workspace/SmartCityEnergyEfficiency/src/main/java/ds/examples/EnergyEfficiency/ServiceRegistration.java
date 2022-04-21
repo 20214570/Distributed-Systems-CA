@@ -24,7 +24,7 @@ public class ServiceRegistration {
 			// service_name + service_type => simple_http._tcp.local
 			//String service_name = "GrpcServer";							
 			int service_port = port;
-			String service_desc = "test integration of jmDNS with gRPC";
+			String service_desc = "Service1/Service2/Service3";
 				
 			
 			//Create ServiceInfo - 
@@ -59,4 +59,4 @@ public class ServiceRegistration {
 
 	}
 
-}
+}//closes Service Registration method

@@ -10,40 +10,39 @@ import io.grpc.stub.StreamObserver;
 public class EnergyServer2 extends Service2RenewablesImplBase {
 
 	//turbineStatus method
-			public void turbineStatus(turbineRequest request, StreamObserver<turbineResponse> responseObserver) {
+	public void turbineStatus(turbineRequest request, StreamObserver<turbineResponse> responseObserver) {
 				
-				//if statement checks if the client still needs a response
-				if (Context.current().isCancelled()) {
-					  responseObserver.onError(Status.CANCELLED.withDescription("turbineStatus method cancelled by client.").asRuntimeException());
-					  return;
-				}
+		//if statement checks if the client still needs a response
+		if (Context.current().isCancelled()) {
+			responseObserver.onError(Status.CANCELLED.withDescription("turbineStatus method cancelled by client.").asRuntimeException());
+			return;
+		}
 				
 				
 				
-				try {
-				//Get content of message from client
-				System.out.println("Query from client: " + request.getTurbine() + "\n");
+		try {
+			//Get content of message from client
+			System.out.println("Query from client: " + request.getTurbine() + "\n");
 
-				//Build response
-				turbineResponse.Builder responseBuilder = turbineResponse.newBuilder();
+			//Build response
+			turbineResponse.Builder responseBuilder = turbineResponse.newBuilder();
 				
-				responseBuilder.setTurbineStatus("Turbine ID: 4\nTurbine Brand Name: Windmaster 300\nNominal Power: 300 kW\nWind Speed: 29m/sec\n");
+			responseBuilder.setTurbineStatus("Turbine ID: 4\nTurbine Brand Name: Windmaster 300\nNominal Power: 300 kW\nWind Speed: 29m/sec\n");
 			
-				responseObserver.onNext(responseBuilder.build());
+			responseObserver.onNext(responseBuilder.build());
 				
-				System.out.println("Server response sent to client.\n");
+			System.out.println("Server response sent to client.\n");
 
-				responseObserver.onCompleted();//server tells the client that there are no more messages
+			responseObserver.onCompleted();//server tells the client that there are no more messages
 				
-				} catch (StatusRuntimeException e) {
-					e.printStackTrace();
-				}
-		}//closes turbineStatus method
+		} catch (StatusRuntimeException e) {
+			e.printStackTrace();
+		}
+	}//closes turbineStatus method
 
 		
-		//hydroAverageValues method
-		public StreamObserver<NumberMessage> hydroAverageValues(
-				StreamObserver<CalculateResponse> responseObserver) {
+	//hydroAverageValues method
+	public StreamObserver<NumberMessage> hydroAverageValues(StreamObserver<CalculateResponse> responseObserver) {
 
 			return new StreamObserver<NumberMessage>() {
 
@@ -105,4 +104,4 @@ public class EnergyServer2 extends Service2RenewablesImplBase {
 	
 	
 	
-}
+}//closes EnergyServer2

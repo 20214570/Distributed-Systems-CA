@@ -25,7 +25,7 @@ public class EnergyClient {
 
 	public static void main(String[] args) throws InterruptedException {
 
-
+		//Service discovery
 		ServiceInfo serviceInfo;
 		String service_type = "_grpc._tcp.local.";
 		//Now retrieve the service info - all we are supplying is the service type
@@ -237,8 +237,6 @@ public class EnergyClient {
 			e.printStackTrace();
 		}
 
-
-
 		try {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
@@ -246,7 +244,7 @@ public class EnergyClient {
 			e.printStackTrace();
 		}
 
-	}	
+	}//closes bridgeLights method	
 	
 	
 	
@@ -270,10 +268,8 @@ public class EnergyClient {
 		} catch (StatusRuntimeException e) {
 			e.printStackTrace();
 		}
-		
-		
-		
-	}
+			
+	}//closes turbineStatus method
 	
 	//hydroAverageValues method - calculates the average water flow over a hydro-electric dam.
 	public static void hydroAverageValues() {
@@ -304,39 +300,28 @@ public class EnergyClient {
 		try {
 			requestObserver.onNext(NumberMessage.newBuilder().setNumber(128).build());
 			Thread.sleep(500);
-
 			requestObserver.onNext(NumberMessage.newBuilder().setNumber(120).build());
 			Thread.sleep(500);
-
 			requestObserver.onNext(NumberMessage.newBuilder().setNumber(132).build());
 			Thread.sleep(500);
-
 			requestObserver.onNext(NumberMessage.newBuilder().setNumber(121).build());
 			Thread.sleep(500);
-
 			requestObserver.onNext(NumberMessage.newBuilder().setNumber(49).build());
 			Thread.sleep(500);
-
 			requestObserver.onNext(NumberMessage.newBuilder().setNumber(87).build());
 			Thread.sleep(500);
-
 			requestObserver.onNext(NumberMessage.newBuilder().setNumber(93).build());
 			Thread.sleep(500);
-
 			requestObserver.onNext(NumberMessage.newBuilder().setNumber(85).build());
 			Thread.sleep(500);
-
 			requestObserver.onNext(NumberMessage.newBuilder().setNumber(97).build());
 			Thread.sleep(500);
-
 			requestObserver.onNext(NumberMessage.newBuilder().setNumber(119).build());
 			Thread.sleep(500);
-
 
 			// Mark the end of requests
 			requestObserver.onCompleted();
 
-			
 			Thread.sleep(5000);
 			
 		} catch (RuntimeException e) {
@@ -392,4 +377,4 @@ public class EnergyClient {
 			
 	}//closes the predictiveMaintenance method
 	
-}//closes the class
+}//closes the EnergyClient class

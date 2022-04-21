@@ -118,4 +118,4 @@ public class ServiceDiscovery {
 	}
 
 
-}
+}//closes Service Discovery method
